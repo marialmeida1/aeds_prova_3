@@ -51,29 +51,96 @@ Para acessar os valores dentro do "objeto" criado deve-se primeiramente, instanc
 
 ```C
 // Declaração igual
-    typedef struct {
-        char nome[100];
-        int codigo;
-        char genero;
-        int doenca[100];
-        int total;
-    } Paciente;
+typedef struct {
+    char nome[100];
+    int codigo;
+    char genero;
+    int doenca[100];
+    int total;
+} Paciente;
 
 
 // Alocando dinâmicamente
-    Paciente *p = (Paciente *) malloc(sizeof(Paciente));
+Paciente *p = (Paciente *) malloc(sizeof(Paciente));
 
 // Chamando a função
-    p->nome = "Joao";
-    p->codigo = 12345;
-    p->nome = 'M';
-    p->doenca[0] = 1;
-    p->doenca[1] = 99;
-    p->total = 2;
+p->nome = "Joao";
+p->codigo = 12345;
+p->nome = 'M';
+p->doenca[0] = 1;
+p->doenca[1] = 99;
+p->total = 2;
 
 
 // Printando a estrutura
-    printf("Nome: %s\n", p->nome);
-    printf("Codigo: %d\n", p->codigo);
-    // ...
+printf("Nome: %s\n", p->nome);
+printf("Codigo: %d\n", p->codigo);
+ // ...
+```
+
+### Letra B
+
+Crie uma função para cadastrar o paciente com o protótipo a seguir. O paciente é criado sem doença.
+
+```C
+Paciente cadastrar(char nome[], int codigo, char genero);
+```
+
+#### O que é um protótipo e como realizá-lo com uma struct?
+
+Como falado anteriormente, uma strct funciona como um novo tipo de variável por isso podemos criar uma função do tipo Paciente, sendo "Paciente", a struct que criamos anteriormente. Mas o que é um protótipo?
+Um protótipo é como se fosse uma pré definição do que será a sua função, por exemplo, o que ela irá retornar, qual o seu nome e o que ela recebe como parâmetro. No protótipo oferecido, as seguintes informações:
+
+-  'Paciente': sendo o tipo que ela retorna
+-  'cadastrar': seu nome | que acaba indicando o que ela faz
+-  '(char nome[], int codigo, char genero)': por meio disso vemos que ela recebe três parâmetros, dois do tipo char e um do tipo int
+
+Por meio disso podemos observar que ela é uma função que irá realizar o cadastro na nossa struct e que irá retornar para nós a struct que foi preenchida. Se ela estivesse do tipo "void" como retorno, poderiamos constatar que ela não retorna nenhum elemento para nós!
+
+```C
+
+// Criando a função
+Paciente cadastrar(char nome[], int codigo, char genero){
+
+  Paciente novo_paciente;
+
+  strcpy(novo_paciente.nome, nome);
+  novo_paciente.codigo = codigo;
+  novo_paciente.genero = genero;
+
+  for(int i=0; i<10; i++){
+    novo_paciente.doenca[i] = 0;
+  }
+
+  novo_paciente.total = 0;
+
+  return novo_paciente;
+}
+
+
+// Chamando no main
+ Paciente p = cadastrar("Mari", 12345, 'F');
+
+```
+
+Para que o objeto 'novo_paciente' na função seja criado dinâmicamento você deve instânciá-lo com a alocação dinâmica e acessas suas informações por meio de '->', retorna para a função um valor de Paciente, já que é isso que seu protótipo pede.
+
+```C
+// Criando a função com alocação dinâmica
+Paciente cadastrar(char nome[], int codigo, char genero){
+
+  Paciente *novo_paciente = (Paciente *) malloc(sizeof(Paciente));
+
+  strcpy(novo_paciente->nome, nome);
+  novo_paciente->codigo = codigo;
+  novo_paciente->genero = genero;
+
+  for(int i=0; i<10; i++){
+    novo_paciente->doenca[i] = 0;
+  }
+
+  novo_paciente->total = 0;
+
+  return *novo_paciente;
+}
 ```
